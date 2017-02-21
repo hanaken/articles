@@ -56,7 +56,7 @@ class NpbSpider(CrawlSpider):
     def parse_item(self, response):
         item = {}
         # TODO: 試合結果クローリング
-        #item = scrapy.Request('http://npb.jp/scores/2016/0619/d-f-03/box.html', callback=parse_box)
+        #item = scrapy.Request('http://npb.jp/scores/2016/0619/d-f-03/index.html', callback=parse_box)
         scores = self.get_board_scores(response)
         board_scores = []
         score_tables = response.xpath('//div[@id="progress"]/*')
