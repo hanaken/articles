@@ -20,7 +20,10 @@ class NpbSpider(CrawlSpider):
     )
 
     def parse_box(self, response):
-        pass
+        self.logger.info("Visited %s", response.url)
+        item = response.meta['item']
+        item['other_url'] = response.url
+        return item
 
     def get_element_text(self, elements, xpath, index=0):
         body = elements[index].extract()
@@ -55,8 +58,8 @@ class NpbSpider(CrawlSpider):
 
     def parse_item(self, response):
         item = {}
+        request = scrapy.Request('http://npb.jp/scores/2016/0619/d-f-03/index.html', callback=self.parse_box)
         # TODO: 試合結果クローリング
-        #item = scrapy.Request('http://npb.jp/scores/2016/0619/d-f-03/index.html', callback=parse_box)
         scores = self.get_board_scores(response)
         board_scores = []
         score_tables = response.xpath('//div[@id="progress"]/*')
@@ -117,4 +120,6 @@ class NpbSpider(CrawlSpider):
                 "team": scores[count]["team"], "batting": battings
             })
 
-        return board_scores
+        item["play"] = board_scores
+        request.meta['item'] = item
+        return request
