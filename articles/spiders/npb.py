@@ -89,7 +89,7 @@ class NpbSpider(CrawlSpider):
                 batting = {
                     "out": line[1].strip(),
                     "base": line[2].strip(),
-                    "name": line[3].strip(), # 	代打・エルドレッド
+                    "name": line[3].strip(), # 代打・エルドレッドみたいな表記どうしよう
                     "ball_strike": line[4].strip(),
                     "result": result,
                     "point": point
